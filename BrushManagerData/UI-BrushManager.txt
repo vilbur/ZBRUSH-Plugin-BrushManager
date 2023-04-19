@@ -1,0 +1,34 @@
+[IPalette, $PLUGIN_NENU ]
+[ISubPalette, [StrMerge, $PLUGIN_NENU, ":", $PLUGIN_SUBMENU ]]
+
+
+/* This button is fired up by DefaultZScript, it runs plugin first time and initialize it, otherwise ISwitch does not work on first click properly */
+//[IButton, , "",,1,,,,0]
+
+
+[ISwitch, [StrMerge, $CONTROLS_PATH, $PLUGIN_NAME, "Init" ]
+,
+
+,
+//[IPress, ~BrushManager:BrushManagerInit ]
+
+]
+ //,,,,,,,2]
+
+[ISwitch, [StrMerge, $CONTROLS_PATH, $PLUGIN_NAME, "Test" ], /* state */, "Tooltip"
+,
+	//Commands when pressed
+	//[IDisable, ~BrushManager:BrushManagerInit ]
+,
+	//Commands when unpressed
+
+,	/*Disabled*/,	/*Width*/,	48 ]
+
+[IButton,  [StrMerge, $CONTROLS_PATH, "Run External File"], "",
+
+	[Note, "Run External File" ]
+
+	[VarSet, file_path, [StrMerge, $PLUGIN_DATA_PATH, "\test.ahk"] ]
+	[FileExecute, $ZFILE_UTILS_DLL, "LaunchAppWithFile",  #file_path]
+
+,,,,, 48]
