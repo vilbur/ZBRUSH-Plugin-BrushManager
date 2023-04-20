@@ -1,0 +1,209 @@
+[IButton,Standard,"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+
+	[If, ! [MemGetSize, STANDARD_BRUSHES_MEMBLOCK]
+	, //  create memory block
+
+		[MemCreate, STANDARD_BRUSHES_MEMBLOCK, 1024 /* size */ ]
+
+		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "", 0] // store last brush
+		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "Standard", 32]
+		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "Clay", 64]
+		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "Pinch", 96]
+	]
+
+	[RoutineCall, circleBrushes,STANDARD_BRUSHES_MEMBLOCK, 3]
+
+,,128,,, 128]/*End of TEST*/
+
+[IButton, FLAT,"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+
+	[If, ! [MemGetSize, FLAT_BRUSHES_MEMBLOCK]
+	, //  create memory block
+
+		[MemCreate, FLAT_BRUSHES_MEMBLOCK, 1024 /* size */ ]
+
+		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "", 0] // store last brush
+		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "TrimDynamic", 32]
+		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "Flatten", 64]
+		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "Planar", 96]
+	]
+
+	[RoutineCall, circleBrushes, FLAT_BRUSHES_MEMBLOCK, 3]
+
+,,128,,, 128]/*End of TEST*/
+
+[IButton, SMOOTH,"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+
+	[If, ! [MemGetSize, SMOOTH_BRUSHES_MEMBLOCK]
+	, //  create memory block
+
+		[MemCreate, SMOOTH_BRUSHES_MEMBLOCK, 1024 /* size */ ]
+
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "", 0] // store last brush
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "Smooth", 32]
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "SmoothValleys", 64]
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "SmoothPeaks", 96]
+	]
+
+	[RoutineCall, circleBrushes, SMOOTH_BRUSHES_MEMBLOCK, 3]
+
+,,128,,, 128]/*End of TEST*/
+
+
+[IButton, DELETE MEMORY, "Tooltip"
+,
+	[MemDelete, STANDARD_BRUSHES_MEMBLOCK]
+	[MemDelete, FLAT_BRUSHES_MEMBLOCK]
+	[MemDelete, SMOOTH_BRUSHES_MEMBLOCK]
+
+
+,,128,,, 128]/*End of TEST*/
+
+
+/** circleBrushes
+  */
+[RoutineDef, circleBrushes
+,
+	//[Note, "circleBrushes"]
+	[VarDef, last_brush, "" ]
+	[MemReadString, BRUSHES_MEMBLOCK, last_brush, 0]
+
+	[If, [StrLength, last_brush ] == 0
+	, // USE FIRST BRUSH ON FIRST EXECUTION
+		[RoutineCall, useFirstBrush, BRUSHES_MEMBLOCK]
+
+	, // ELSE FIND NEXT BRUSH
+		[RoutineCall, changeBrush, BRUSHES_MEMBLOCK, BRUSHES_COUNT, last_brush]
+	]
+
+
+, // PARAMS
+	BRUSHES_MEMBLOCK, BRUSHES_COUNT
+]
+
+
+
+/** useNextOrFirstBrush
+  */
+[RoutineDef, useNextOrFirstBrush
+,
+	//[Note, "useNextOrFirstBrush"]
+
+	//[Note, [StrMerge, "brush: ", #brush ] ]
+
+	[If, [StrLength, #brush ] == 0
+	, // THEN
+		[MemReadString, BRUSHES_MEMBLOCK, brush, 32] // get first brush
+	]
+
+	[RoutineCall, useBrush, BRUSHES_MEMBLOCK, brush]
+
+, // PARAMS
+	BRUSHES_MEMBLOCK, brush
+]
+
+
+/** useFirstBrush
+  */
+[RoutineDef, useFirstBrush
+,
+	[VarDef, first_brush, ""]
+
+	[MemReadString, BRUSHES_MEMBLOCK, first_brush, 32] // get first brush
+
+	[RoutineCall, useBrush, BRUSHES_MEMBLOCK, first_brush]
+
+, // PARAMS
+	BRUSHES_MEMBLOCK
+]
+
+[VarDef, NEXT_BRUSH_FOUND, ""]
+
+/** findNextBrush
+  */
+[RoutineDef, findNextBrush
+,
+	//[Note, "findNextBrush"]
+	[VarSet, NEXT_BRUSH_FOUND, ""]
+
+	[Loop, [Var, BRUSHES_COUNT] // SEARCH FOR NEXT BRUSH
+	,
+		[VarDef, item, ""]
+		[VarSet, offset, (i + 1) * 32]
+
+		[MemReadString, BRUSHES_MEMBLOCK, item, offset]
+
+		[If, ([StrLength,item]==[StrLength,search_brush])&&([StrFind,item,search_brush]>-1)
+		, //
+			[MemReadString, BRUSHES_MEMBLOCK, NEXT_BRUSH_FOUND, #offset + 32]
+		]
+	,i]
+
+
+	[If, [StrLength, #NEXT_BRUSH_FOUND ] == 0 // IF NEXT IS NOT FOUND
+	, // THEN
+		[MemReadString, BRUSHES_MEMBLOCK, NEXT_BRUSH_FOUND, 32] // get first brush
+	]
+
+	//[Note, [StrMerge, "NEXT_BRUSH_FOUND: ", #NEXT_BRUSH_FOUND ] ]
+
+, // PARAMS
+	BRUSHES_MEMBLOCK, BRUSHES_COUNT, search_brush
+]
+//[IButton, "findNextBrush()" , "", [RoutineCall, findNextBrush] ]
+
+
+/** changeBrush
+  */
+[RoutineDef, changeBrush
+,
+	[VarDef, current_brush, ""]
+
+	[VarSet, current_brush, [StrExtract, [IGetTitle, Brush:ItemInfo], 0, [StrLength, [IGetTitle, Brush:ItemInfo]] - 2 ] ] // remove period
+
+
+
+	[If, [StrFind, "Smooth", last_brush] < 0
+	, // THEN
+
+		[If, ([StrLength,current_brush]==[StrLength,last_brush])&&([StrFind,current_brush,last_brush]>-1)
+		, // CURRENT BRUSH IS SAME AS LAST
+			//[Note, "USE NEXT OR FIRST BRUSH",, 0]
+			[RoutineCall, findNextBrush, BRUSHES_MEMBLOCK, BRUSHES_COUNT, current_brush]
+
+			[RoutineCall, useBrush, BRUSHES_MEMBLOCK, NEXT_BRUSH_FOUND]
+
+		, // ELSE SET LAST BRUSH
+			//[Note, "USE LAST BRUSH",, 0]
+			[RoutineCall, useBrush, BRUSHES_MEMBLOCK, last_brush]
+
+		]
+
+
+	, // ELSE
+		//[Note, "THIS IS SMOOTH",, 0]
+		[RoutineCall, findNextBrush, BRUSHES_MEMBLOCK, BRUSHES_COUNT, last_brush]
+
+		[RoutineCall, useBrush, BRUSHES_MEMBLOCK, NEXT_BRUSH_FOUND]
+
+	]
+
+	[Note, [StrMerge, "NEXT_BRUSH_FOUND: ", #NEXT_BRUSH_FOUND ] ]
+
+
+
+, // PARAMS
+	BRUSHES_MEMBLOCK, BRUSHES_COUNT, last_brush
+]
+
+
+/** useBrush
+  */
+[RoutineDef, useBrush
+,
+	[MemWriteString, BRUSHES_MEMBLOCK, brush, 0]
+
+	[IPress, [StrMerge, "Brush:", brush] ]
+, // PARAMS
+	BRUSHES_MEMBLOCK, brush
+]
