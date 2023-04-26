@@ -1,0 +1,101 @@
+
+[IPalette, $PLUGIN_NENU ]
+//[ISubPalette, [StrMerge, $PLUGIN_NENU, ":", $PLUGIN_SUBMENU ]]
+
+
+/** STANDARD \ CLAY
+  */
+[IButton, [StrMerge, $CONTROLS_PATH, "Test" ],"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+
+	[If, ! [MemGetSize, STANDARD_BRUSHES_MEMBLOCK]
+	, //  create memory block
+
+		[MemCreate, STANDARD_BRUSHES_MEMBLOCK, 1024 /* size */ ]
+
+		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "", 0] // store last brush
+		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "Standard", 32]
+		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "Clay", 64]
+		//[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "Pinch", 96]
+	]
+
+	[RoutineCall, circleBrushes,STANDARD_BRUSHES_MEMBLOCK, 3]
+
+,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\standard.psd"], 64]/*End of TEST*/
+
+
+/** TRIM \ PALNAR
+  */
+[IButton, [StrMerge, $CONTROLS_PATH, "Planar" ],"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+
+	[If, ! [MemGetSize, FLAT_BRUSHES_MEMBLOCK]
+	, //  create memory block
+
+		[MemCreate, FLAT_BRUSHES_MEMBLOCK, 1024 /* size */ ]
+
+		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "", 0] // store last brush
+		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "TrimDynamic", 32]
+		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "Flatten", 64]
+		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "Planar", 96]
+	]
+
+	[RoutineCall, circleBrushes, FLAT_BRUSHES_MEMBLOCK, 3]
+
+,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Planar.psd"], 64]/*End of TEST*/
+
+
+/** MOVE
+  */
+[IButton, [StrMerge, $CONTROLS_PATH, "Move" ],"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+
+	[If, ! [MemGetSize, MOVE_BRUSHES_MEMBLOCK]
+	, //  create memory block
+
+		[MemCreate, MOVE_BRUSHES_MEMBLOCK, 1024 /* size */ ]
+
+		[MemWriteString, MOVE_BRUSHES_MEMBLOCK, "", 0] // store last brush
+		[MemWriteString, MOVE_BRUSHES_MEMBLOCK, "Move", 32]
+		[MemWriteString, MOVE_BRUSHES_MEMBLOCK, "Move Topological", 64]
+	]
+
+	[RoutineCall, circleBrushes, MOVE_BRUSHES_MEMBLOCK, 3]
+
+,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Move.psd"], 64]/*End of TEST*/
+
+
+
+/** SMOOTH \ SMOOTH VALLEYS \ SMOOTH PEAKS
+  */
+[IButton, [StrMerge, $CONTROLS_PATH, "Smooth" ],"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+
+	[If, ! [MemGetSize, SMOOTH_BRUSHES_MEMBLOCK]
+	, //  create memory block
+
+		/* LOAD CUSTOM BRUSH */
+		[FileNameSetNext,"ZBRUSH_\ZBrushes\Smooth\Smooth Stronger.ZBP"]
+		[IPress,Brush:Load Brush]
+
+
+		[MemCreate, SMOOTH_BRUSHES_MEMBLOCK, 1024 /* size */ ]
+
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "", 0] // store last brush
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "Smooth", 32]
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "SmoothValleys", 64]
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "SmoothPeaks", 96]
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "Smooth Stronger", 96]
+	]
+
+	[RoutineCall, circleBrushes, SMOOTH_BRUSHES_MEMBLOCK, 3]
+
+,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Smooth.psd"], 64]/*End of TEST*/
+
+//
+//[IButton, [StrMerge, $CONTROLS_PATH, $PLUGIN_NAME, "Delete memory" ], "Tooltip"
+//,
+//	[MemDelete, STANDARD_BRUSHES_MEMBLOCK]
+//	[MemDelete, FLAT_BRUSHES_MEMBLOCK]
+//	[MemDelete, SMOOTH_BRUSHES_MEMBLOCK]
+//
+//
+//,,56,,[StrMerge, $PLUGIN_NENU, "\Icons\standard.psd"], 56]/*End of TEST*/
+//
+//

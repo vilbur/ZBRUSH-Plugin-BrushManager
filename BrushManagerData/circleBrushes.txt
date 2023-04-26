@@ -1,63 +1,3 @@
-[IButton,Standard,"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
-
-	[If, ! [MemGetSize, STANDARD_BRUSHES_MEMBLOCK]
-	, //  create memory block
-
-		[MemCreate, STANDARD_BRUSHES_MEMBLOCK, 1024 /* size */ ]
-
-		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "", 0] // store last brush
-		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "Standard", 32]
-		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "Clay", 64]
-		[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "Pinch", 96]
-	]
-
-	[RoutineCall, circleBrushes,STANDARD_BRUSHES_MEMBLOCK, 3]
-
-,,128,,, 128]/*End of TEST*/
-
-[IButton, FLAT,"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
-
-	[If, ! [MemGetSize, FLAT_BRUSHES_MEMBLOCK]
-	, //  create memory block
-
-		[MemCreate, FLAT_BRUSHES_MEMBLOCK, 1024 /* size */ ]
-
-		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "", 0] // store last brush
-		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "TrimDynamic", 32]
-		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "Flatten", 64]
-		[MemWriteString, FLAT_BRUSHES_MEMBLOCK, "Planar", 96]
-	]
-
-	[RoutineCall, circleBrushes, FLAT_BRUSHES_MEMBLOCK, 3]
-
-,,128,,, 128]/*End of TEST*/
-
-[IButton, SMOOTH,"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
-
-	[If, ! [MemGetSize, SMOOTH_BRUSHES_MEMBLOCK]
-	, //  create memory block
-
-		[MemCreate, SMOOTH_BRUSHES_MEMBLOCK, 1024 /* size */ ]
-
-		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "", 0] // store last brush
-		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "Smooth", 32]
-		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "SmoothValleys", 64]
-		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "SmoothPeaks", 96]
-	]
-
-	[RoutineCall, circleBrushes, SMOOTH_BRUSHES_MEMBLOCK, 3]
-
-,,128,,, 128]/*End of TEST*/
-
-
-[IButton, DELETE MEMORY, "Tooltip"
-,
-	[MemDelete, STANDARD_BRUSHES_MEMBLOCK]
-	[MemDelete, FLAT_BRUSHES_MEMBLOCK]
-	[MemDelete, SMOOTH_BRUSHES_MEMBLOCK]
-
-
-,,128,,, 128]/*End of TEST*/
 
 
 /** circleBrushes
@@ -161,8 +101,6 @@
 
 	[VarSet, current_brush, [StrExtract, [IGetTitle, Brush:ItemInfo], 0, [StrLength, [IGetTitle, Brush:ItemInfo]] - 2 ] ] // remove period
 
-
-
 	[If, [StrFind, "Smooth", last_brush] < 0
 	, // THEN
 
@@ -176,21 +114,14 @@
 		, // ELSE SET LAST BRUSH
 			//[Note, "USE LAST BRUSH",, 0]
 			[RoutineCall, useBrush, BRUSHES_MEMBLOCK, last_brush]
-
 		]
-
 
 	, // ELSE
 		//[Note, "THIS IS SMOOTH",, 0]
 		[RoutineCall, findNextBrush, BRUSHES_MEMBLOCK, BRUSHES_COUNT, last_brush]
 
 		[RoutineCall, useBrush, BRUSHES_MEMBLOCK, NEXT_BRUSH_FOUND]
-
 	]
-
-	[Note, [StrMerge, "NEXT_BRUSH_FOUND: ", #NEXT_BRUSH_FOUND ] ]
-
-
 
 , // PARAMS
 	BRUSHES_MEMBLOCK, BRUSHES_COUNT, last_brush
@@ -204,6 +135,11 @@
 	[MemWriteString, BRUSHES_MEMBLOCK, brush, 0]
 
 	[IPress, [StrMerge, "Brush:", brush] ]
+
+
+	//[Note, #brush,, 0.2 ]
+	[NoteBar, [StrMerge, "--------------------------------------------- BRUSH CHNAGED TO: ", #brush ] ]
+
 , // PARAMS
 	BRUSHES_MEMBLOCK, brush
 ]

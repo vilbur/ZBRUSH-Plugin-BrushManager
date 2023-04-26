@@ -1,8 +1,0 @@
-
-[IPalette, "~BrushLoader"]
-
-[ISubPalette, "~BrushLoader:Common"]
-[IButton, "~BrushLoader:Common:Standard", "Get Brush Standard",
-	
-	[Note, "Standard" ]
-, , 54, , , 54 ]

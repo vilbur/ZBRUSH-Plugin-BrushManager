@@ -22,3 +22,9 @@
 [IPalette,  $PLUGIN_NENU ]
 
 
+
+
+<zscriptinsert, "BrushManagerData/circleBrushes.txt">	// "./BrushManagerData/circleBrushes.txt"
+<zscriptinsert, "BrushManagerData/UI-Brush-Buttons.txt">	// "./BrushManagerData/UI-Brush-Buttons.txt"
+
+
