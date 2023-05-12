@@ -3,9 +3,10 @@
 //[ISubPalette, [StrMerge, $PLUGIN_NENU, ":", $PLUGIN_SUBMENU ]]
 
 
+
 /** STANDARD \ CLAY
   */
-[IButton, [StrMerge, $CONTROLS_PATH, "Test" ],"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+[IButton, [StrMerge, $CONTROLS_PATH, "Test" ],"Circle Brushes STANDARD \ CLAY",
 
 	[If, ! [MemGetSize, STANDARD_BRUSHES_MEMBLOCK]
 	, //  create memory block
@@ -18,14 +19,16 @@
 		//[MemWriteString, STANDARD_BRUSHES_MEMBLOCK, "Pinch", 96]
 	]
 
-	[RoutineCall, circleBrushes,STANDARD_BRUSHES_MEMBLOCK, 3]
+	[RoutineCall, circleBrushes,STANDARD_BRUSHES_MEMBLOCK, 2]
 
 ,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\standard.psd"], 64]/*End of TEST*/
 
 
-/** TRIM \ PALNAR
+
+
+/** TRIM \ FLATTEN \ PALNAR
   */
-[IButton, [StrMerge, $CONTROLS_PATH, "Planar" ],"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+[IButton, [StrMerge, $CONTROLS_PATH, "Planar" ],"Circle Brushes TRIM \ FLATTEN \ PALNAR",
 
 	[If, ! [MemGetSize, FLAT_BRUSHES_MEMBLOCK]
 	, //  create memory block
@@ -43,9 +46,11 @@
 ,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Planar.psd"], 64]/*End of TEST*/
 
 
-/** MOVE
+
+
+/** MOVE \ MOVE TOPOLOGICAL
   */
-[IButton, [StrMerge, $CONTROLS_PATH, "Move" ],"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+[IButton, [StrMerge, $CONTROLS_PATH, "Move" ],"Circle Brushes MOVE \ MOVE TOPOLOGICAL",
 
 	[If, ! [MemGetSize, MOVE_BRUSHES_MEMBLOCK]
 	, //  create memory block
@@ -57,22 +62,27 @@
 		[MemWriteString, MOVE_BRUSHES_MEMBLOCK, "Move Topological", 64]
 	]
 
-	[RoutineCall, circleBrushes, MOVE_BRUSHES_MEMBLOCK, 3]
+	[RoutineCall, circleBrushes, MOVE_BRUSHES_MEMBLOCK, 2]
 
 ,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Move.psd"], 64]/*End of TEST*/
 
 
 
-/** SMOOTH \ SMOOTH VALLEYS \ SMOOTH PEAKS
+
+/** SMOOTH \ SMOOTH PEAKS \ SMOOTH VALLEYS \ SMOOTH STRONGER
   */
-[IButton, [StrMerge, $CONTROLS_PATH, "Smooth" ],"Press to play this ZScript. ZScript can be aborted at anytime by pressing the ëescí key.",
+[IButton, [StrMerge, $CONTROLS_PATH, "Smooth" ],"Circle Brushes SMOOTH \ SMOOTH PEAKS \ SMOOTH VALLEYS \ SMOOTH STRONGER",
 
 	[If, ! [MemGetSize, SMOOTH_BRUSHES_MEMBLOCK]
 	, //  create memory block
 
 		/* LOAD CUSTOM BRUSH */
-		[FileNameSetNext,"ZBRUSH_\ZBrushes\Smooth\Smooth Stronger.ZBP"]
+		[FileNameSetNext,"ZBRUSH_ZBrushes\Smooth\Smooth Stronger.ZBP"]
 		[IPress,Brush:Load Brush]
+
+		[FileNameSetNext,"ZBRUSH_ZBrushes\Smooth\SmoothDirectional.ZBP"]
+		[IPress,Brush:Load Brush]
+
 
 
 		[MemCreate, SMOOTH_BRUSHES_MEMBLOCK, 1024 /* size */ ]
@@ -81,12 +91,52 @@
 		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "Smooth", 32]
 		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "SmoothValleys", 64]
 		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "SmoothPeaks", 96]
-		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "Smooth Stronger", 96]
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "Smooth Stronger", 128]
+		[MemWriteString, SMOOTH_BRUSHES_MEMBLOCK, "SmoothDirectional", 160]
 	]
 
-	[RoutineCall, circleBrushes, SMOOTH_BRUSHES_MEMBLOCK, 3]
+	[RoutineCall, circleBrushes, SMOOTH_BRUSHES_MEMBLOCK, 5]
 
 ,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Smooth.psd"], 64]/*End of TEST*/
+
+
+/** PINCH \ MAGNIFY
+  */
+[IButton, [StrMerge, $CONTROLS_PATH, "Pinch" ],"Circle Brushes PINCH \ MAGNIFY",
+
+	[If, ! [MemGetSize, PINCH_BRUSHES_MEMBLOCK]
+	, //  create memory block
+
+		[MemCreate, PINCH_BRUSHES_MEMBLOCK, 1024 /* size */ ]
+
+		[MemWriteString, PINCH_BRUSHES_MEMBLOCK, "", 0] // store last brush
+		[MemWriteString, PINCH_BRUSHES_MEMBLOCK, "Pinch", 32]
+		[MemWriteString, PINCH_BRUSHES_MEMBLOCK, "Magnify", 64]
+	]
+
+	[RoutineCall, circleBrushes, PINCH_BRUSHES_MEMBLOCK, 2]
+
+,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Pinch.psd"], 64]/*End of TEST*/
+
+
+/** MASK RECTANGLE \ MASK PEN \ MASK LASSO
+  */
+[IButton, [StrMerge, $CONTROLS_PATH, "Mask" ],"Circle Brushes MASK RECTANGLE \ MASK PEN \ MASK LASSO",
+
+	[If, ! [MemGetSize, MASK_BRUSHES_MEMBLOCK]
+	, //  create memory block
+
+		[MemCreate, MASK_BRUSHES_MEMBLOCK, 1024 /* size */ ]
+
+		[MemWriteString, MASK_BRUSHES_MEMBLOCK, "", 0] // store last brush
+		[MemWriteString, MASK_BRUSHES_MEMBLOCK, "MaskRect", 32]
+		[MemWriteString, MASK_BRUSHES_MEMBLOCK, "MaskPen", 64]
+		[MemWriteString, MASK_BRUSHES_MEMBLOCK, "MaskLasso", 96]
+	]
+
+	[RoutineCall, circleBrushes, PINCH_BRUSHES_MEMBLOCK, 3]
+
+,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Mask.psd"], 64]/*End of TEST*/
 
 //
 //[IButton, [StrMerge, $CONTROLS_PATH, $PLUGIN_NAME, "Delete memory" ], "Tooltip"

@@ -134,7 +134,13 @@
 ,
 	[MemWriteString, BRUSHES_MEMBLOCK, brush, 0]
 
-	[IPress, [StrMerge, "Brush:", brush] ]
+
+	//[Note, [StrMerge, "brush: ", #brush ] ]
+
+	[If, [IExists, [StrMerge, "brush: ", #brush ]]
+	, // THEN
+		[IPress, [StrMerge, "Brush:", brush] ]
+	]
 
 
 	//[Note, #brush,, 0.2 ]

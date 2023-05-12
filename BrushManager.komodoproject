@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Komodo Project File - DO NOT EDIT -->
-<project id="dc8bf196-b725-4c02-9f42-d977c19c061f" kpf_version="5" name="BrushManager.komodoproject">
-<preference-set idref="dc8bf196-b725-4c02-9f42-d977c19c061f" id="project" preftype="project">
+<project id="3903e7f2-38a2-49e0-999d-480eebd4892a" kpf_version="5" name="BrushManager.komodoproject">
+<preference-set idref="3903e7f2-38a2-49e0-999d-480eebd4892a" id="project" preftype="project">
+  <long id="prefs_version">1</long>
 </preference-set>
 </project>
