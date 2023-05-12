@@ -101,7 +101,7 @@
 
 	[VarSet, current_brush, [StrExtract, [IGetTitle, Brush:ItemInfo], 0, [StrLength, [IGetTitle, Brush:ItemInfo]] - 2 ] ] // remove period
 
-	[If, [StrFind, "Smooth", last_brush] < 0
+	[If, [StrFind, "Smooth", last_brush] < 0 &&  [StrFind, "Mask", last_brush] < 0
 	, // THEN
 
 		[If, ([StrLength,current_brush]==[StrLength,last_brush])&&([StrFind,current_brush,last_brush]>-1)

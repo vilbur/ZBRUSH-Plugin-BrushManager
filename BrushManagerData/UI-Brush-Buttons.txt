@@ -134,7 +134,7 @@
 		[MemWriteString, MASK_BRUSHES_MEMBLOCK, "MaskLasso", 96]
 	]
 
-	[RoutineCall, circleBrushes, PINCH_BRUSHES_MEMBLOCK, 3]
+	[RoutineCall, circleBrushes, MASK_BRUSHES_MEMBLOCK, 3]
 
 ,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Mask.psd"], 64]/*End of TEST*/
 
