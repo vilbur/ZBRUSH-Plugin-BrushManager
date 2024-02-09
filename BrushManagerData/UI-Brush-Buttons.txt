@@ -2,11 +2,12 @@
 [IPalette, $PLUGIN_NENU ]
 //[ISubPalette, [StrMerge, $PLUGIN_NENU, ":", $PLUGIN_SUBMENU ]]
 
+[VarSet, button_size, 64 ]
 
 
-/** STANDARD \ CLAY
+/** STANDARD | CLAY
   */
-[IButton, [StrMerge, $CONTROLS_PATH, "Test" ],"Circle Brushes STANDARD \ CLAY",
+[IButton, [StrMerge, $CONTROLS_PATH, "Test" ],"Brushes: STANDARD | CLAY",
 
 	[If, ! [MemGetSize, STANDARD_BRUSHES_MEMBLOCK]
 	, //  create memory block
@@ -21,14 +22,14 @@
 
 	[RoutineCall, circleBrushes,STANDARD_BRUSHES_MEMBLOCK, 2]
 
-,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\standard.psd"], 64]/*End of TEST*/
+,,[Var, button_size],,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\standard.psd"], [Var, button_size]]
 
 
 
 
-/** TRIM \ FLATTEN \ PALNAR
+/** TRIM | FLATTEN | PALNAR
   */
-[IButton, [StrMerge, $CONTROLS_PATH, "Planar" ],"Circle Brushes TRIM \ FLATTEN \ PALNAR",
+[IButton, [StrMerge, $CONTROLS_PATH, "Planar" ],"Brushes: TRIM | FLATTEN | PALNAR",
 
 	[If, ! [MemGetSize, FLAT_BRUSHES_MEMBLOCK]
 	, //  create memory block
@@ -43,14 +44,14 @@
 
 	[RoutineCall, circleBrushes, FLAT_BRUSHES_MEMBLOCK, 3]
 
-,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Planar.psd"], 64]/*End of TEST*/
+,,[Var, button_size],,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Planar.psd"], [Var, button_size]]
 
 
 
 
-/** MOVE \ MOVE TOPOLOGICAL
+/** MOVE | MOVE TOPOLOGICAL
   */
-[IButton, [StrMerge, $CONTROLS_PATH, "Move" ],"Circle Brushes MOVE \ MOVE TOPOLOGICAL",
+[IButton, [StrMerge, $CONTROLS_PATH, "Move" ],"Brushes: MOVE | MOVE TOPOLOGICAL",
 
 	[If, ! [MemGetSize, MOVE_BRUSHES_MEMBLOCK]
 	, //  create memory block
@@ -64,14 +65,14 @@
 
 	[RoutineCall, circleBrushes, MOVE_BRUSHES_MEMBLOCK, 2]
 
-,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Move.psd"], 64]/*End of TEST*/
+,,[Var, button_size],,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Move.psd"], [Var, button_size]]
 
 
 
 
-/** SMOOTH \ SMOOTH PEAKS \ SMOOTH VALLEYS \ SMOOTH STRONGER
+/** SMOOTH | SMOOTH PEAKS | SMOOTH VALLEYS | SMOOTH STRONGER
   */
-[IButton, [StrMerge, $CONTROLS_PATH, "Smooth" ],"Circle Brushes SMOOTH \ SMOOTH PEAKS \ SMOOTH VALLEYS \ SMOOTH STRONGER",
+[IButton, [StrMerge, $CONTROLS_PATH, "Smooth" ],"Brushes: SMOOTH | SMOOTH PEAKS | SMOOTH VALLEYS | SMOOTH STRONGER",
 
 	[If, ! [MemGetSize, SMOOTH_BRUSHES_MEMBLOCK]
 	, //  create memory block
@@ -97,12 +98,12 @@
 
 	[RoutineCall, circleBrushes, SMOOTH_BRUSHES_MEMBLOCK, 5]
 
-,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Smooth.psd"], 64]/*End of TEST*/
+,,[Var, button_size],,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Smooth.psd"], [Var, button_size]]
 
 
-/** PINCH \ MAGNIFY
+/** PINCH | MAGNIFY | DAM STANDARD
   */
-[IButton, [StrMerge, $CONTROLS_PATH, "Pinch" ],"Circle Brushes PINCH \ MAGNIFY",
+[IButton, [StrMerge, $CONTROLS_PATH, "Pinch" ],"Brushes: PINCH | MAGNIFY | DAM STANDARD",
 
 	[If, ! [MemGetSize, PINCH_BRUSHES_MEMBLOCK]
 	, //  create memory block
@@ -112,16 +113,17 @@
 		[MemWriteString, PINCH_BRUSHES_MEMBLOCK, "", 0] // store last brush
 		[MemWriteString, PINCH_BRUSHES_MEMBLOCK, "Pinch", 32]
 		[MemWriteString, PINCH_BRUSHES_MEMBLOCK, "Magnify", 64]
+		[MemWriteString, PINCH_BRUSHES_MEMBLOCK, "DamStandard", 96]
 	]
 
-	[RoutineCall, circleBrushes, PINCH_BRUSHES_MEMBLOCK, 2]
+	[RoutineCall, circleBrushes, PINCH_BRUSHES_MEMBLOCK, 3]
 
-,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Pinch.psd"], 64]/*End of TEST*/
+,,[Var, button_size],,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Pinch.psd"], [Var, button_size]]
 
 
-/** MASK RECTANGLE \ MASK PEN \ MASK LASSO
+/** MASK RECTANGLE | MASK PEN | MASK LASSO
   */
-[IButton, [StrMerge, $CONTROLS_PATH, "Mask" ],"Circle Brushes MASK RECTANGLE \ MASK PEN \ MASK LASSO",
+[IButton, [StrMerge, $CONTROLS_PATH, "Mask" ],"Brushes: MASK RECTANGLE | MASK PEN | MASK LASSO",
 
 	[If, ! [MemGetSize, MASK_BRUSHES_MEMBLOCK]
 	, //  create memory block
@@ -136,7 +138,26 @@
 
 	[RoutineCall, circleBrushes, MASK_BRUSHES_MEMBLOCK, 3]
 
-,,64,,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Mask.psd"], 64]/*End of TEST*/
+,,[Var, button_size],,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Mask.psd"], [Var, button_size]]
+
+
+/** TRANSPOSE | TRANSPOSE SMART
+  */
+[IButton, [StrMerge, $CONTROLS_PATH, "Transpose" ],"Brushes: TRANSPOSE | TRANSPOSE SMART",
+
+	[If, ! [MemGetSize, TRANSPOSE_BRUSHES_MEMBLOCK]
+	, //  create memory block
+
+		[MemCreate, TRANSPOSE_BRUSHES_MEMBLOCK, 1024 /* size */ ]
+
+		[MemWriteString, TRANSPOSE_BRUSHES_MEMBLOCK, "", 0] // store last brush
+		[MemWriteString, TRANSPOSE_BRUSHES_MEMBLOCK, "Transpose", 32]
+		[MemWriteString, TRANSPOSE_BRUSHES_MEMBLOCK, "TransposeSmart", #button_size]
+	]
+
+	[RoutineCall, circleBrushes, TRANSPOSE_BRUSHES_MEMBLOCK, 2]
+
+,, [Var, button_size],,[StrMerge, $PLUGIN_DATA_PATH, "\Icons\Transpose.psd"],  [Var, button_size]]
 
 //
 //[IButton, [StrMerge, $CONTROLS_PATH, $PLUGIN_NAME, "Delete memory" ], "Tooltip"
@@ -146,6 +167,6 @@
 //	[MemDelete, SMOOTH_BRUSHES_MEMBLOCK]
 //
 //
-//,,56,,[StrMerge, $PLUGIN_NENU, "\Icons\standard.psd"], 56]/*End of TEST*/
+//,,56,,[StrMerge, $PLUGIN_NENU, "\Icons\standard.psd"], [Var, button_size]]
 //
 //

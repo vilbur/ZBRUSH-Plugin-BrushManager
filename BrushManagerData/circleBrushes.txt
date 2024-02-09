@@ -101,6 +101,7 @@
 
 	[VarSet, current_brush, [StrExtract, [IGetTitle, Brush:ItemInfo], 0, [StrLength, [IGetTitle, Brush:ItemInfo]] - 2 ] ] // remove period
 
+
 	//[If, [StrFind, "Smooth", last_brush] < 0 ||  [StrFind, "Mask", last_brush] < 0
 	[If, ([StrFind, "Smooth", last_brush] < 0) &&  ([StrFind, "Mask", last_brush] < 0)
 	//[If, [StrFind, "Smooth", last_brush] < 0
@@ -145,9 +146,8 @@
 	]
 
 
-	[Note, #brush,, 0.2 ]
-	[NoteBar, [StrMerge, "BRUSH CHNAGED TO:","                           "
-		, #brush ], 1 ]
+	[Note, [StrMerge, "\n\n\n     " , #brush, "\n\n\n"],, 0.5 ]
+	[NoteBar, [StrMerge, "BRUSH CHNAGED TO:","                           ", #brush ] ]
 
 , // PARAMS
 	BRUSHES_MEMBLOCK, brush
