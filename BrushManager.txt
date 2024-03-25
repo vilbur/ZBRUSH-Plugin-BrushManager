@@ -1,25 +1,25 @@
 /**
   *
   */
-[VarSet, $PLUGIN_NAME, 	"BrushManager"]
-[VarSet, $PLUGIN_SUBMENU, 	"BrushManagerSubmenu"]
+[VarSet, PLUGIN_NAME, 	"BrushManager"]
+[VarSet, PLUGIN_SUBMENU, 	"BrushManagerSubmenu"]
 
 
-[VarSet, $PLUGIN_NENU,	[StrMerge, "~", $PLUGIN_NAME ]]
-[VarSet, $PLUGIN_DATA_PATH,	[FileNameResolvePath, [StrMerge, $PLUGIN_NAME, "Data" ]]]
-
-
-
-//[VarSet, $CONTROLS_PATH,	[StrMerge, $PLUGIN_NENU, ":", $PLUGIN_SUBMENU, ":"]]	// FULL PATH: Menu > Submenu > Control
-[VarSet, $CONTROLS_PATH,	[StrMerge, $PLUGIN_NENU, ":"]]	// MENU PATH: Menu > Submenu > Control
-//[VarSet, $CONTROLS_PATH,	"" ]	// DEV controls in script pane
-
-
-[VarSet, $ZFILE_UTILS_DLL, [StrMerge, $PLUGIN_DATA_PATH, "\\ZFileUtils64.dll"] ]
+[VarSet, PLUGIN_NENU,	[StrMerge, "~", PLUGIN_NAME ]]
+[VarSet, PLUGIN_DATA_PATH,	[FileNameResolvePath, [StrMerge, PLUGIN_NAME, "Data" ]]]
 
 
 
-[IPalette,  $PLUGIN_NENU ]
+//[VarSet, CONTROLS_PATH,	[StrMerge, PLUGIN_NENU, ":", PLUGIN_SUBMENU, ":"]]	// FULL PATH: Menu > Submenu > Control
+[VarSet, CONTROLS_PATH,	[StrMerge, PLUGIN_NENU, ":"]]	// MENU PATH: Menu > Submenu > Control
+//[VarSet, CONTROLS_PATH,	"" ]	// DEV controls in script pane
+
+
+[VarSet, ZFILE_UTILS_DLL, [StrMerge, PLUGIN_DATA_PATH, "\\ZFileUtils64.dll"] ]
+
+
+
+[IPalette,  PLUGIN_NENU ]
 
 
 
