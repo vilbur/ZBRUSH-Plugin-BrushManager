@@ -1,4 +1,24 @@
 
+/** loadCustomBrush
+  
+  load brush from zbruses folder
+  
+  E.G.: c:\Program Files\Pixologic\ZBrush 2022\ZBrushes\Smooth\Smooth Groups.ZBP
+  
+  @param string BRUSH_NAME "Brush folder\Brush name"
+  
+  */
+[RoutineDef, loadCustomBrush
+,
+	[FileNameSetNext, [StrMerge, "ZBRUSH_ZBrushes\\", BRUSH_NAME, ".ZBP"] ]
+	
+	[IPress,Brush:Load Brush]
+		
+, // PARAMS
+	BRUSH_NAME
+]
+
+//[IButton, "loadCustomBrush()" , "", [RoutineCall, loadCustomBrush] ]
 
 /** circleBrushes
   */
@@ -59,6 +79,41 @@
 
 [VarDef, NEXT_BRUSH_FOUND, ""]
 
+/** changeBrush
+  */
+[RoutineDef, changeBrush
+,
+	[VarDef, current_brush, ""]
+
+	[VarSet, current_brush, [StrExtract, [IGetTitle, Brush:ItemInfo], 0, [StrLength, [IGetTitle, Brush:ItemInfo]] - 2 ] ] // remove period
+
+	[If, ([StrFind, "Smooth", last_brush] < 0) &&  ([StrFind, "Mask", last_brush] < 0)
+	, // THEN
+	
+		[If, ([StrLength,current_brush]==[StrLength,last_brush])&&([StrFind,current_brush,last_brush]>-1)
+	
+		, /*------ CURRENT BRUSH IS SAME AS LAST ------*/
+			//[Note, "USE NEXT OR FIRST BRUSH",, 0]
+			[RoutineCall, findNextBrush, BRUSHES_MEMBLOCK, BRUSHES_COUNT, current_brush]
+	
+			[RoutineCall, useBrush, BRUSHES_MEMBLOCK, NEXT_BRUSH_FOUND]
+	
+		, /*------ ELSE SET LAST BRUSH ------*/
+			[RoutineCall, useBrush, BRUSHES_MEMBLOCK, last_brush]
+		]
+	
+	, /* ELSE ALWAYS SET NEXT BRUSH IF SMOOTH OR MASK */ 
+		
+		//[Note, "THIS IS SMOOTH",, 0]
+		[RoutineCall, findNextBrush, BRUSHES_MEMBLOCK, BRUSHES_COUNT, last_brush]
+	
+		[RoutineCall, useBrush, BRUSHES_MEMBLOCK, NEXT_BRUSH_FOUND]
+	]
+
+, // PARAMS
+	BRUSHES_MEMBLOCK, BRUSHES_COUNT, last_brush
+]
+
 /** findNextBrush
   */
 [RoutineDef, findNextBrush
@@ -93,48 +148,12 @@
 //[IButton, "findNextBrush()" , "", [RoutineCall, findNextBrush] ]
 
 
-/** changeBrush
-  */
-[RoutineDef, changeBrush
-,
-	[VarDef, current_brush, ""]
-
-	[VarSet, current_brush, [StrExtract, [IGetTitle, Brush:ItemInfo], 0, [StrLength, [IGetTitle, Brush:ItemInfo]] - 2 ] ] // remove period
-
-
-	//[If, [StrFind, "Smooth", last_brush] < 0 ||  [StrFind, "Mask", last_brush] < 0
-	[If, ([StrFind, "Smooth", last_brush] < 0) &&  ([StrFind, "Mask", last_brush] < 0)
-	//[If, [StrFind, "Smooth", last_brush] < 0
-	, // THEN
-
-		[If, ([StrLength,current_brush]==[StrLength,last_brush])&&([StrFind,current_brush,last_brush]>-1)
-		, // CURRENT BRUSH IS SAME AS LAST
-			//[Note, "USE NEXT OR FIRST BRUSH",, 0]
-			[RoutineCall, findNextBrush, BRUSHES_MEMBLOCK, BRUSHES_COUNT, current_brush]
-
-			[RoutineCall, useBrush, BRUSHES_MEMBLOCK, NEXT_BRUSH_FOUND]
-
-		, // ELSE SET LAST BRUSH
-			//[Note, "USE LAST BRUSH",, 0]
-			[RoutineCall, useBrush, BRUSHES_MEMBLOCK, last_brush]
-		]
-
-	, // ELSE
-		//[Note, "THIS IS SMOOTH",, 0]
-		[RoutineCall, findNextBrush, BRUSHES_MEMBLOCK, BRUSHES_COUNT, last_brush]
-
-		[RoutineCall, useBrush, BRUSHES_MEMBLOCK, NEXT_BRUSH_FOUND]
-	]
-
-, // PARAMS
-	BRUSHES_MEMBLOCK, BRUSHES_COUNT, last_brush
-]
-
 
 /** useBrush
   */
 [RoutineDef, useBrush
 ,
+	/* UPDATE ARRAY IN MEMORY */ 
 	[MemWriteString, BRUSHES_MEMBLOCK, brush, 0]
 
 
